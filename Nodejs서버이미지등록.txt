@@ -1,0 +1,27 @@
+1. 콘솔
+npm install --save multer
+
+2. router.js
+//1. 모듈등록
+const multer = require("multer");
+
+// 2. 파일 저장 위치를 diskStorage()함수로 지정할 경우
+var storage = multer.diskStorage({
+    destination:(req,file,cb)=>{
+        cb(null, 'images/'); //저장될 폴더위치
+    },
+    filename:(req,file,cb)=>{
+        cb(null,file.originalname); //저장할 파일이름
+    }
+
+});
+
+var upload = multer({storage:storage}); //위 정보를 미들웨어 등록
+
+3. 라우터
+router.post("/image", upload.single("img"), function(request, response){
+    
+    console.log(request.file);
+    response.send('upload: '+request.file.filename);
+
+})
