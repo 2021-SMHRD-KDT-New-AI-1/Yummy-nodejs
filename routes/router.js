@@ -45,4 +45,26 @@ router.get("/DoubleCheck", function(request, response) {
     })
 })
 
+router.get("/Login", function(request, response) {
+    let sql = "select * from members;"
+    conn.query(sql, function(err, rows) {
+        let arr = Array();
+        for (let i=0;i<rows.length;i++) {
+            let data = new Object();
+            data.member_id = rows[i].member_id;
+            data.member_pw = rows[i].member_pw;
+            data.member_name = rows[i].member_name;
+            data.halar = rows[i].halar;
+            data.vegan = rows[i].vegan;
+            data.egg = rows[i].egg;
+            data.nut = rows[i].nut;
+            data.fish = rows[i].fish;
+            data.bean = rows[i].bean;
+            arr.push(data);
+        }
+        let jsonData = JSON.stringify(arr);
+        response.send(jsonData);
+    })
+})
+
 module.exports = router;
