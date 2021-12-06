@@ -5,5 +5,5 @@ const bodyparser = require("body-parser");
 
 app.use(bodyparser.urlencoded({extended:false}));
 app.use(router);
-app.listen(3002);
+app.listen(3001);
 // 3002 -> Server, 3306 -> Mysql, 5500 -> HTML
