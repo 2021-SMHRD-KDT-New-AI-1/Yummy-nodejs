@@ -67,4 +67,17 @@ router.get("/Login", function(request, response) {
     })
 })
 
+router.get("/Post", function(request, response) {
+    let id = request.query.id;
+    let content = request.query.content;
+
+    let sql = "insert into posts(post_num, member_id, post_content, post_date, post_like, post_comments) values(null, ?, ?, curdate(), 0, 0)";
+    conn.query(sql, [id, content], function(err, rows) {
+        response.render("Post", {
+            id : id,
+            content : content
+        })
+    })
+})
+
 module.exports = router;
