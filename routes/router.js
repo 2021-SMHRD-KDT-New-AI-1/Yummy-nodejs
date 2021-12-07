@@ -80,4 +80,23 @@ router.get("/Post", function(request, response) {
     })
 })
 
+router.get("/Community", function(request, response) {
+    let sql = "select * from posts;"
+    conn.query(sql, function(err, rows) {
+        let arr = Array();
+        for (let i=0;i<rows.length;i++) {
+            let data = new Object();
+            data.post_num = rows[i].post_num;
+            data.member_id = rows[i].member_id;
+            data.post_content = rows[i].post_content;
+            data.post_date = rows[i].post_date;
+            data.post_like = rows[i].post_like;
+            data.post_comments = rows[i].post_comments;
+            arr.push(data);
+        }
+        let jsonData = JSON.stringify(arr);
+        response.send(jsonData);
+    })
+})
+
 module.exports = router;
