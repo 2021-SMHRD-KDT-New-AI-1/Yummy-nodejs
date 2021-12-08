@@ -73,15 +73,16 @@ router.get("/Post", function(request, response) {
 
     let sql = "insert into posts(post_num, member_id, post_content, post_date, post_like, post_comments) values(null, ?, ?, curdate(), 0, 0)";
     conn.query(sql, [id, content], function(err, rows) {
-        response.render("Post", {
-            id : id,
-            content : content
-        })
+        // response.render("Post", {
+        //     id : id,
+        //     content : content
+        // })
+        response.send('success');
     })
 })
 
 router.get("/Community", function(request, response) {
-    let sql = "select * from posts;"
+    let sql = "select * from posts order by post_num desc;"
     conn.query(sql, function(err, rows) {
         let arr = Array();
         for (let i=0;i<rows.length;i++) {
