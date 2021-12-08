@@ -100,4 +100,43 @@ router.get("/Community", function(request, response) {
     })
 })
 
+router.get("/Like", function(request, response) {
+    let post_num = request.query.post_num;
+
+    let sql = "update posts set post_like = post_like + 1 where post_num = ?";
+    conn.query(sql, [post_num], function(err, rows) {
+        response.send('success');
+    })
+})
+
+router.get("/Comment", function(request, response) {
+    let post_num = request.query.post_num;
+    let sql = "select * from comments where post_num=? order by comment_num desc;"
+    conn.query(sql, [post_num], function(err, rows) {
+        let arr = Array();
+        for (let i=0;i<rows.length;i++) {
+            let data = new Object();
+            data.comment_num = rows[i].comment_num;
+            data.member_id = rows[i].member_id;
+            data.post_num = rows[i].post_num;
+            data.comment_cont = rows[i].comment_cont;
+            data.comment_date = rows[i].comment_date;
+            arr.push(data);
+        }
+        let jsonData = JSON.stringify(arr);
+        response.send(jsonData);
+    })
+})
+
+router.get("/Write", function(request, response) {
+    let member_id = request.query.member_id;
+    let post_num = request.query.post_num;
+    let comment_con = request.query.comment_con;
+
+    let sql = "insert into comments(comment_num, member_id, post_num, comment_cont, comment_date) values(null, ?, ?, ?, curdate())";
+    conn.query(sql, [member_id, post_num, comment_con], function(err, rows) {
+        response.send('success');
+    })
+})
+
 module.exports = router;
