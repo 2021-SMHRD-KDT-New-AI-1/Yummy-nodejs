@@ -71,7 +71,7 @@ router.get("/Post", function(request, response) {
     let id = request.query.id;
     let content = request.query.content;
 
-    let sql = "insert into posts(post_num, member_id, post_content, post_date, post_like, post_comments) values(null, ?, ?, curdate(), 0, 0)";
+    let sql = "insert into posts(post_num, member_id, post_content, post_date, post_like, post_comments) values(null, ?, ?, date_format(now(), '%y-%m-%d'), 0, 0)";
     conn.query(sql, [id, content], function(err, rows) {
         // response.render("Post", {
         //     id : id,
@@ -82,7 +82,7 @@ router.get("/Post", function(request, response) {
 })
 
 router.get("/Community", function(request, response) {
-    let sql = "select * from posts order by post_num desc;"
+    let sql = "select a.post_num, a.member_id, a.post_content, a.post_date, a.post_like, count(b.post_num) post_comments from posts a left outer join comments b on a.post_num=b.post_num group by a.post_num order by a.post_num desc;"
     conn.query(sql, function(err, rows) {
         let arr = Array();
         for (let i=0;i<rows.length;i++) {
