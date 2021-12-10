@@ -140,9 +140,9 @@ router.get("/Write", function(request, response) {
 })
 
 router.get("/Food", function(request, response) {
-    let food_name = request.query.food_name;
-    let sql = "select * from food where food_name=?;";
-    conn.query(sql, [food_name], function(err, rows) {
+    let food_kor_name = request.query.food_kor_name;
+    let sql = "select * from food where food_kor_name=?;";
+    conn.query(sql, [food_kor_name], function(err, rows) {
         let arr = Array();
         for (let i=0;i<rows.length;i++) {
             let data = new Object();
@@ -153,6 +153,7 @@ router.get("/Food", function(request, response) {
             data.food_favor = rows[i].food_favor;
             data.food_kcal = rows[i].food_kcal;
             data.food_desc = rows[i].food_desc;
+            data.food_kor_name = rows[i].food_kor_name;
             arr.push(data);
         }
         let jsonData = JSON.stringify(arr);
