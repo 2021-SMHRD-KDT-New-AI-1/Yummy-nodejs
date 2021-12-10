@@ -139,4 +139,25 @@ router.get("/Write", function(request, response) {
     })
 })
 
+router.get("/Food", function(request, response) {
+    let food_name = request.query.food_name;
+    let sql = "select * from food where food_name=?;";
+    conn.query(sql, [food_name], function(err, rows) {
+        let arr = Array();
+        for (let i=0;i<rows.length;i++) {
+            let data = new Object();
+            data.food_num = rows[i].food_num;
+            data.food_name = rows[i].food_name;
+            data.food_img_path = rows[i].food_img_path;
+            data.food_ingre = rows[i].food_ingre;
+            data.food_favor = rows[i].food_favor;
+            data.food_kcal = rows[i].food_kcal;
+            data.food_desc = rows[i].food_desc;
+            arr.push(data);
+        }
+        let jsonData = JSON.stringify(arr);
+        response.send(jsonData);
+    })
+})
+
 module.exports = router;
