@@ -161,4 +161,23 @@ router.get("/Food", function(request, response) {
     })
 })
 
+router.get("/Update", function(request, response) {
+    let member_id = request.query.member_id;
+    let member_pw = request.query.member_pw;
+
+    let sql = "update members set member_pw = ? where member_id = ?";
+    conn.query(sql, [member_pw, member_id], function(err, rows) {
+        response.send('success');
+    })
+})
+
+router.get("/Delete", function(request, response) {
+    let member_id = request.query.member_id;
+
+    let sql = "delete from members where member_id = ?";
+    conn.query(sql, [member_id], function(err, rows) {
+        response.send('success');
+    })
+})
+
 module.exports = router;
