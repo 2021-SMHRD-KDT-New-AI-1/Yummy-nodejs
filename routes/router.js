@@ -185,4 +185,21 @@ router.get("/Delete", function(request, response) {
     })
 })
 
+router.get("/Ranking", function(request, response) {
+    let sql = "select food_name, food_img_path, food_count, food_score from food where food_count >= 4 and food_count <= 10 order by food_count;";
+    conn.query(sql, function(err, rows) {
+        let arr = Array();
+        for (let i=0;i<rows.length;i++) {
+            let data = new Object();
+            data.food_name = rows[i].food_name;
+            data.food_img_path = rows[i].food_img_path;
+            data.food_count = rows[i].food_count;
+            data.food_score = rows[i].food_score;
+            arr.push(data);
+        }
+        let jsonData = JSON.stringify(arr);
+        response.send(jsonData);
+    })
+})
+
 module.exports = router;
