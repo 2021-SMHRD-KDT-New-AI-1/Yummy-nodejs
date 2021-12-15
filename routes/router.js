@@ -186,7 +186,7 @@ router.get("/Delete", function(request, response) {
 })
 
 router.get("/Ranking", function(request, response) {
-    let sql = "select food_name, food_img_path, food_count, food_score from food where food_count >= 4 and food_count <= 10 order by food_count;";
+    let sql = "select food_name, food_img_path, food_count, food_score, food_kor_name from food where food_count >= 4 and food_count <= 10 order by food_count;";
     conn.query(sql, function(err, rows) {
         let arr = Array();
         for (let i=0;i<rows.length;i++) {
@@ -195,6 +195,7 @@ router.get("/Ranking", function(request, response) {
             data.food_img_path = rows[i].food_img_path;
             data.food_count = rows[i].food_count;
             data.food_score = rows[i].food_score;
+            data.food_kor_name = rows[i].food_kor_name;
             arr.push(data);
         }
         let jsonData = JSON.stringify(arr);
